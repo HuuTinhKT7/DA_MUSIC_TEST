@@ -37,6 +37,8 @@
             textBox1 = new TextBox();
             btnSearch = new Button();
             label2 = new Label();
+            btnAdd = new Button();
+            btnDeleteSong = new Button();
             ((System.ComponentModel.ISupportInitialize)songList).BeginInit();
             SuspendLayout();
             // 
@@ -90,6 +92,7 @@
             songList.RowHeadersWidth = 62;
             songList.Size = new Size(424, 543);
             songList.TabIndex = 19;
+            songList.CellContentDoubleClick += songList_CellContentDoubleClick;
             // 
             // textBox1
             // 
@@ -116,11 +119,33 @@
             label2.TabIndex = 22;
             label2.Text = "search for song";
             // 
+            // btnAdd
+            // 
+            btnAdd.Location = new Point(367, 642);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(112, 34);
+            btnAdd.TabIndex = 23;
+            btnAdd.Text = "Add";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // btnDeleteSong
+            // 
+            btnDeleteSong.Location = new Point(367, 587);
+            btnDeleteSong.Name = "btnDeleteSong";
+            btnDeleteSong.Size = new Size(112, 34);
+            btnDeleteSong.TabIndex = 25;
+            btnDeleteSong.Text = "Delete";
+            btnDeleteSong.UseVisualStyleBackColor = true;
+            btnDeleteSong.Click += btnDeleteSong_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1009, 751);
+            Controls.Add(btnDeleteSong);
+            Controls.Add(btnAdd);
             Controls.Add(label2);
             Controls.Add(btnSearch);
             Controls.Add(textBox1);
@@ -148,5 +173,7 @@
         private TextBox textBox1;
         private Button btnSearch;
         private Label label2;
+        private Button btnAdd;
+        private Button btnDeleteSong;
     }
 }

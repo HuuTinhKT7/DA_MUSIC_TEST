@@ -32,7 +32,6 @@
             btnAllsongs = new Button();
             btnPlaylist = new Button();
             btnArtists = new Button();
-            listBox1 = new ListBox();
             pictureBox1 = new PictureBox();
             lbAllsongs = new Label();
             lbSongname = new Label();
@@ -45,11 +44,13 @@
             trackBar1 = new TrackBar();
             picShuffle = new PictureBox();
             picLoop = new PictureBox();
+            songList = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picShuffle).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picLoop).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)songList).BeginInit();
             SuspendLayout();
             // 
             // btnAllsongs
@@ -78,15 +79,6 @@
             btnArtists.TabIndex = 5;
             btnArtists.Text = "Artists";
             btnArtists.UseVisualStyleBackColor = true;
-            // 
-            // listBox1
-            // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 25;
-            listBox1.Location = new Point(39, 137);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(504, 404);
-            listBox1.TabIndex = 6;
             // 
             // pictureBox1
             // 
@@ -133,6 +125,7 @@
             btnBack.TabIndex = 11;
             btnBack.Text = "Back";
             btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
             // 
             // btnNext
             // 
@@ -142,6 +135,7 @@
             btnNext.TabIndex = 12;
             btnNext.Text = "Next";
             btnNext.UseVisualStyleBackColor = true;
+            btnNext.Click += btnNext_Click;
             // 
             // btnStop
             // 
@@ -151,10 +145,11 @@
             btnStop.TabIndex = 13;
             btnStop.Text = "Stop";
             btnStop.UseVisualStyleBackColor = true;
+            btnStop.Click += btnStop_Click;
             // 
             // btnComment
             // 
-            btnComment.Location = new Point(549, 507);
+            btnComment.Location = new Point(549, 512);
             btnComment.Name = "btnComment";
             btnComment.Size = new Size(112, 34);
             btnComment.TabIndex = 14;
@@ -181,6 +176,7 @@
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(299, 69);
             trackBar1.TabIndex = 16;
+            trackBar1.Scroll += trackBar1_Scroll;
             // 
             // picShuffle
             // 
@@ -202,28 +198,40 @@
             picLoop.TabIndex = 17;
             picLoop.TabStop = false;
             // 
+            // songList
+            // 
+            songList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            songList.Location = new Point(39, 128);
+            songList.Name = "songList";
+            songList.RowHeadersWidth = 62;
+            songList.Size = new Size(504, 418);
+            songList.TabIndex = 20;
+            songList.CellContentDoubleClick += songList_CellContentDoubleClick;
+            // 
             // Plays
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(663, 738);
+            ClientSize = new Size(721, 738);
+            Controls.Add(songList);
             Controls.Add(picLoop);
             Controls.Add(picShuffle);
             Controls.Add(panel1);
             Controls.Add(btnComment);
             Controls.Add(lbAllsongs);
-            Controls.Add(listBox1);
             Controls.Add(btnArtists);
             Controls.Add(btnPlaylist);
             Controls.Add(btnAllsongs);
             Name = "Plays";
             Text = "Plays";
+            FormClosing += Plays_FormClosing;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ((System.ComponentModel.ISupportInitialize)picShuffle).EndInit();
             ((System.ComponentModel.ISupportInitialize)picLoop).EndInit();
+            ((System.ComponentModel.ISupportInitialize)songList).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -232,7 +240,6 @@
         private Button btnAllsongs;
         private Button btnPlaylist;
         private Button btnArtists;
-        private ListBox listBox1;
         private PictureBox pictureBox1;
         private Label lbAllsongs;
         private Label lbSongname;
@@ -245,5 +252,6 @@
         private TrackBar trackBar1;
         private PictureBox picShuffle;
         private PictureBox picLoop;
+        private DataGridView songList;
     }
 }
