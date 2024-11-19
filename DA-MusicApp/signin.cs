@@ -57,7 +57,7 @@
                         MessageBox.Show(token);
                         File.WriteAllText("token.txt", token);
                         // Open main form logic here
-                        MainForm mainForm = new MainForm(username, email, this);
+                        MainForm mainForm = new MainForm(username, email, this,0);
                         mainForm.Show();
                         this.Hide();
                     }
@@ -82,9 +82,49 @@
 
         private void signin_Load(object sender, EventArgs e)
         {
-            
+            if (File.Exists("token.txt"))
+            {
+                string token = File.ReadAllText("token.txt"); // Gửi token đến server để xác thực
+                if (ValidateToken(token, out string username, out string email))
+                {
+                    MainForm mainForm = new MainForm(username,email,this,1);
+                    mainForm.Show();
+                }
+            }
+        }
+        static bool ValidateToken(string token, out string username, out string email)
+        {
+            username = "";
+            email = "";
+            try
+            {
+                using (TcpClient client = new TcpClient("127.0.0.1", 12345))
+                {
+                    NetworkStream stream = client.GetStream();
+                    string message = $"VALIDATE_TOKEN:{token}";
+                    byte[] data = Encoding.UTF8.GetBytes(message);
+                    stream.Write(data, 0, data.Length);
+                    byte[] responseData = new byte[256];
+                    int bytes = stream.Read(responseData, 0, responseData.Length);
+                    string response = Encoding.UTF8.GetString(responseData, 0, bytes);
+                    if (response == "VALID")
+                    {
+                        byte[] userData = new byte[256];
+                        int userBytes = stream.Read(userData, 0, userData.Length);
+                        string userInfo = Encoding.UTF8.GetString(userData, 0, userBytes);
+                        string[] parts = userInfo.Split(':');
+                        username = parts[0]; email = parts[1];
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message);
+            }
+            return false;
         }
 
-        
+
     }
 }

@@ -27,7 +27,9 @@ namespace DA_MusicApp
         private int currentRowIndex = -1;
         private DataTable songDataTable;
         signin signin;
-        public MainForm(string username, string email, signin signin)
+        int signinbytoken = 0;
+
+        public MainForm(string username, string email, signin signin, int signinbytoken)
         {
             InitializeComponent();
             this.username = username;
@@ -35,6 +37,8 @@ namespace DA_MusicApp
             LoadData();
             LoadSongList();
             this.signin = signin;
+            this.signinbytoken = signinbytoken;
+
         }
 
         private void LoadData()
@@ -45,6 +49,7 @@ namespace DA_MusicApp
 
         public void LoadSongList()
         {
+
             try
             {
                 using (TcpClient client = new TcpClient(server, port))
@@ -83,35 +88,42 @@ namespace DA_MusicApp
         private void btnLogout_Click(object sender, EventArgs e)
         {
 
-            try { 
-                using (TcpClient client = new TcpClient(server, port)) {
+            try
+            {
+                using (TcpClient client = new TcpClient(server, port))
+                {
                     NetworkStream stream = client.GetStream();
                     string message = $"LOGOUT:{this.username}";
                     byte[] data = Encoding.UTF8.GetBytes(message);
                     stream.Write(data, 0, data.Length);
                     byte[] responseData = new byte[256];
-                    int bytes = stream.Read(responseData, 0, responseData.Length); 
+                    int bytes = stream.Read(responseData, 0, responseData.Length);
                     string response = Encoding.UTF8.GetString(responseData, 0, bytes);
-                    if (response == "SUCCESS") {
+                    if (response == "SUCCESS")
+                    {
                         MessageBox.Show("Logout successful!");
-                        if (File.Exists("token.txt")) { 
-                            File.Delete("token.txt"); 
+                        if (File.Exists("token.txt"))
+                        {
+                            File.Delete("token.txt");
                         }
                         signin.Show();
-                        this.Close(); 
+                        this.Close();
                     }
-                    else {
-                        MessageBox.Show("Logout failed. Please try again."); 
+                    else
+                    {
+                        MessageBox.Show("Logout failed. Please try again.");
                     }
                 }
             }
-            catch (Exception ex) {
-                MessageBox.Show("Exception: " + ex.Message); 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
             }
         }
 
         private void songList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+
             if (e.RowIndex >= 0)
             {
                 this.currentRowIndex = e.RowIndex;
@@ -214,9 +226,18 @@ namespace DA_MusicApp
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string filterText = txtSearch.Text.ToLower();
-            DataView dv = songDataTable.DefaultView; 
+            DataView dv = songDataTable.DefaultView;
             dv.RowFilter = $"[Song Name] LIKE '%{filterText}%' OR [Artist] LIKE '%{filterText}%'";
             songList.DataSource = dv;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            this.signin.Hide();
         }
     }
 }

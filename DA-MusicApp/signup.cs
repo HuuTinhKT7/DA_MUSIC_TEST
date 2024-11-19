@@ -97,7 +97,7 @@ namespace DA_MusicApp
                         if (response == "SUCCESS")
                         {
                             MessageBox.Show("Signup successful! Opening main form...");
-                            MainForm mainForm = new MainForm(username,email,signin);
+                            MainForm mainForm = new MainForm(username,email,signin,0);
                             mainForm.Show();
                             this.Close();
                         }

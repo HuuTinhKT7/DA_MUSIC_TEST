@@ -147,6 +147,7 @@
             Controls.Add(label1);
             Name = "MainForm";
             Text = "MainForm";
+            Shown += MainForm_Shown;
             ((System.ComponentModel.ISupportInitialize)songList).EndInit();
             ResumeLayout(false);
             PerformLayout();
