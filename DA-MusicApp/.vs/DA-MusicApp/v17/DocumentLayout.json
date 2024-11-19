@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\signin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:signin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\signin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\signin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:signin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 284,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,32 +34,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "signin.cs",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\signin.cs",
               "RelativeDocumentMoniker": "signin.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\signin.cs",
               "RelativeToolTip": "signin.cs",
-              "ViewState": "AQIAAFAAAAAAAAAAAAAgwFgAAAARAAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAYwDgAAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T13:55:14.182Z",
+              "WhenOpened": "2024-11-19T14:17:37.576Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "signin.cs [Design]",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\signin.cs",
               "RelativeDocumentMoniker": "signin.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\signin.cs [Design]",
               "RelativeToolTip": "signin.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T09:42:34.878Z",
+              "WhenOpened": "2024-11-19T14:17:35.739Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "Plays.cs",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\Plays.cs",
               "RelativeDocumentMoniker": "Plays.cs",
@@ -75,42 +67,19 @@
               "RelativeToolTip": "Plays.cs",
               "ViewState": "AQIAAKoAAAAAAAAAAAAewLsAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T08:19:17.488Z"
+              "WhenOpened": "2024-11-19T08:19:17.488Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "Plays.cs [Design]",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\Plays.cs",
               "RelativeDocumentMoniker": "Plays.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\Plays.cs [Design]",
               "RelativeToolTip": "Plays.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T08:17:49.109Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs",
-              "RelativeDocumentMoniker": "MainForm.cs",
-              "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs",
-              "RelativeToolTip": "MainForm.cs",
-              "ViewState": "AQIAALgAAAAAAAAAAIA0wOcAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-17T12:28:54.582Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainForm.cs [Design]",
-              "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs",
-              "RelativeDocumentMoniker": "MainForm.cs",
-              "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs [Design]",
-              "RelativeToolTip": "MainForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T18:19:14.715Z",
+              "WhenOpened": "2024-11-19T08:17:49.109Z",
               "EditorCaption": " [Design]"
             }
           ]

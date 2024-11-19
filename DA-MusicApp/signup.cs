@@ -94,8 +94,13 @@ namespace DA_MusicApp
                         byte[] responseData = new byte[1024];
                         int bytes = stream.Read(responseData, 0, responseData.Length);
                         string response = Encoding.UTF8.GetString(responseData, 0, bytes);
+                        MessageBox.Show(response);
                         if (response == "SUCCESS")
                         {
+                            byte[] tokenData = new byte[256];
+                            stream.Read(tokenData, 0, tokenData.Length); 
+                            string token = Encoding.UTF8.GetString(tokenData, 0, tokenData.Length); // Lưu token vào tệp
+                            File.WriteAllText("token.txt", token);
                             MessageBox.Show("Signup successful! Opening main form...");
                             MainForm mainForm = new MainForm(username,email,signin,0);
                             mainForm.Show();

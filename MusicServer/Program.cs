@@ -183,9 +183,16 @@ class Server
                             string hashedPassword1 = Convert.ToBase64String(passwordHash1);
                             string saltString1 = Convert.ToBase64String(salt1);
                             AddUser(parts[1], parts[2], hashedPassword1, saltString1);
-                            byte[] response = Encoding.UTF8.GetBytes("SUCCESS");
-                            stream.Write(response, 0, response.Length);
-                            Console.WriteLine("User registered: " + username);
+                            string token = Guid.NewGuid().ToString();
+                            bool tokenUpdated = UpdateUserToken(parts[1], token);
+                            if (tokenUpdated)
+                            {
+                                byte[] response = Encoding.UTF8.GetBytes("SUCCESS");
+                                stream.Write(response, 0, response.Length);
+                                byte[] tokenData = Encoding.UTF8.GetBytes(token);
+                                stream.Write(tokenData, 0, tokenData.Length);
+                                Console.WriteLine("User registered: " + username);
+                            }
                         }
                     }
 

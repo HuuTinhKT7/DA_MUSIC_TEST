@@ -54,9 +54,7 @@
                         byte[] tokenData = new byte[tokenSize];
                         stream.Read(tokenData, 0, tokenData.Length);
                         string token = Encoding.UTF8.GetString(tokenData, 0, tokenSize);
-                        MessageBox.Show(token);
                         File.WriteAllText("token.txt", token);
-                        // Open main form logic here
                         MainForm mainForm = new MainForm(username, email, this,0);
                         mainForm.Show();
                         this.Hide();
