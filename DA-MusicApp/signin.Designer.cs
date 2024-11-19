@@ -113,6 +113,7 @@
             Controls.Add(label1);
             Name = "signin";
             Text = "sign in";
+            Load += signin_Load;
             ResumeLayout(false);
             PerformLayout();
         }

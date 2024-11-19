@@ -21,9 +21,15 @@ namespace DA_MusicApp
         string server = "127.0.0.1"; // Server IP
         int port = 12345; // Server port
         private PasswordHasher passwordHasher = new PasswordHasher();
+        signin signin;
         public signup()
         {
             InitializeComponent();
+        }
+        public signup(signin signin)
+        {
+            InitializeComponent();
+            this.signin = signin;
         }
                 
         private bool IsValidEmail(string email)
@@ -91,7 +97,7 @@ namespace DA_MusicApp
                         if (response == "SUCCESS")
                         {
                             MessageBox.Show("Signup successful! Opening main form...");
-                            MainForm mainForm = new MainForm(username,email);
+                            MainForm mainForm = new MainForm(username,email,signin);
                             mainForm.Show();
                             this.Close();
                         }

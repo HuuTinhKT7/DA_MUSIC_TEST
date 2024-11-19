@@ -34,8 +34,7 @@
             label1 = new Label();
             btnLogout = new Button();
             songList = new DataGridView();
-            textBox1 = new TextBox();
-            btnSearch = new Button();
+            txtSearch = new TextBox();
             label2 = new Label();
             btnAdd = new Button();
             btnDeleteSong = new Button();
@@ -94,30 +93,22 @@
             songList.TabIndex = 19;
             songList.CellContentDoubleClick += songList_CellContentDoubleClick;
             // 
-            // textBox1
+            // txtSearch
             // 
-            textBox1.Location = new Point(506, 50);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(394, 31);
-            textBox1.TabIndex = 20;
-            // 
-            // btnSearch
-            // 
-            btnSearch.Location = new Point(909, 50);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(88, 34);
-            btnSearch.TabIndex = 21;
-            btnSearch.Text = "search";
-            btnSearch.UseVisualStyleBackColor = true;
+            txtSearch.Location = new Point(506, 50);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(424, 31);
+            txtSearch.TabIndex = 20;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Location = new Point(506, 22);
             label2.Name = "label2";
-            label2.Size = new Size(135, 25);
+            label2.Size = new Size(345, 25);
             label2.TabIndex = 22;
-            label2.Text = "search for song";
+            label2.Text = "search for song (type song name or artist)";
             // 
             // btnAdd
             // 
@@ -147,8 +138,7 @@
             Controls.Add(btnDeleteSong);
             Controls.Add(btnAdd);
             Controls.Add(label2);
-            Controls.Add(btnSearch);
-            Controls.Add(textBox1);
+            Controls.Add(txtSearch);
             Controls.Add(songList);
             Controls.Add(btnLogout);
             Controls.Add(txtEmail);
@@ -170,8 +160,7 @@
         private Label label1;
         private Button btnLogout;
         private DataGridView songList;
-        private TextBox textBox1;
-        private Button btnSearch;
+        private TextBox txtSearch;
         private Label label2;
         private Button btnAdd;
         private Button btnDeleteSong;

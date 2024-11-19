@@ -58,7 +58,7 @@ class Server
     }
     static void Main(string[] args)
     {
-        
+
         TcpListener server = null;
         try
         {
@@ -97,38 +97,40 @@ class Server
                 stream.Write(songData, 0, songData.Length);
             }
 
-            else if(message =="ADDSONG")
+            else if (message == "ADDSONG")
             {
-                byte[] buffer1 = new byte[10* 1024 * 1024];
+                byte[] buffer1 = new byte[10 * 1024 * 1024];
                 int bytes1 = stream.Read(buffer1, 0, buffer1.Length);
                 string message1 = Encoding.UTF8.GetString(buffer1, 0, bytes1);
                 string[] parts1 = message1.Split(':');
                 string songName = parts1[1];
                 string artist = parts1[2];
                 byte[] songFile = Convert.FromBase64String(parts1[3]);
-                AddSong(songName, artist, songFile); 
+                AddSong(songName, artist, songFile);
                 byte[] response = Encoding.UTF8.GetBytes("SUCCESS");
                 stream.Write(response, 0, response.Length);
                 Console.WriteLine("Song added: " + songName);
 
             }
-            
+
             else
             {
                 string[] parts = message.Split(':');
                 string username = parts[0];
                 string password = parts[1];
-                if (parts.Length == 2 && parts[0]=="GET_SONG")
+                if (parts.Length == 2 && parts[0] == "GET_SONG")
                 {
                     string songName = parts[1];
                     byte[] songFile = GetSongFile(songName);
-                    if (songFile != null) {
+                    if (songFile != null)
+                    {
                         stream.Write(songFile, 0, songFile.Length);
                         Console.WriteLine("Sent song: " + songName);
                     }
-                    else {
+                    else
+                    {
                         byte[] response = Encoding.UTF8.GetBytes("SONG_NOT_FOUND");
-                        stream.Write(response, 0, response.Length); Console.WriteLine("Song not found: " + songName); 
+                        stream.Write(response, 0, response.Length); Console.WriteLine("Song not found: " + songName);
                     }
                 }
                 if (parts.Length == 2 && parts[0] == "DELETE_SONG")
@@ -136,8 +138,32 @@ class Server
                     string songName = message.Split(':')[1];
                     bool success = DeleteSong(songName);
                     string response = success ? "SUCCESS" : "FAILED";
-                    byte[] responseData = Encoding.UTF8.GetBytes(response); 
+                    byte[] responseData = Encoding.UTF8.GetBytes(response);
                     stream.Write(responseData, 0, responseData.Length);
+                }
+                if (parts.Length == 2 && parts[0] == "LOGOUT")
+                {
+                    bool success = LogoutUser(parts[1]);
+                    string response = success ? "SUCCESS" : "FAILED";
+                    byte[] responseData = Encoding.UTF8.GetBytes(response);
+                    stream.Write(responseData, 0, responseData.Length);
+                }
+                if (parts.Length == 2 && parts[0] == "VALIDATE_TOKEN")
+                {
+                    string token = parts[1];
+                    if (ValidateToken(token, out username, out string email))
+                    {
+                        byte[] response = Encoding.UTF8.GetBytes("VALID");
+                        stream.Write(response, 0, response.Length);
+                        string userInfo = $"{username}:{email}";
+                        byte[] userData = Encoding.UTF8.GetBytes(userInfo);
+                        stream.Write(userData, 0, userData.Length);
+                    }
+                    else
+                    {
+                        byte[] response = Encoding.UTF8.GetBytes("INVALID");
+                        stream.Write(response, 0, response.Length);
+                    }
                 }
                 else
                 {
@@ -167,16 +193,34 @@ class Server
                     {
                         if (AuthenticateUser(username, password, hashedPassword, saltString))
                         {
-                            Console.WriteLine("User authenticated: " + username);
-                            byte[] response = Encoding.UTF8.GetBytes("SUCCESS");
-                            stream.Write(response, 0, response.Length);
-                            response = Encoding.UTF8.GetBytes(email);
-                            stream.Write(response, 0, response.Length);
+                            string token = Guid.NewGuid().ToString();
+                            bool tokenUpdated = UpdateUserToken(username, token);
+                            if (tokenUpdated)
+                            {
+                                Console.WriteLine("User authenticated: " + username);
+                                byte[] response = Encoding.UTF8.GetBytes("SUCCESS");
+                                stream.Write(response, 0, response.Length);
+                                byte[] emailData = Encoding.UTF8.GetBytes(email);
+                                byte[] emailSize = BitConverter.GetBytes(emailData.Length);
+                                stream.Write(emailSize, 0, emailSize.Length);
+                                stream.Write(emailData, 0, emailData.Length);
+                                byte[] tokenData = Encoding.UTF8.GetBytes(token);
+                                byte[] tokenSize = BitConverter.GetBytes(tokenData.Length);
+                                stream.Write(tokenSize, 0, tokenSize.Length);
+                                stream.Write(tokenData, 0, tokenData.Length);
+                            }
+                            else
+                            {
+                                byte[] response = Encoding.UTF8.GetBytes("FAIL");
+                                stream.Write(response, 0, response.Length);
+                                Console.WriteLine("Failed to update token: " + username);
+                            }
                         }
                         else
                         {
                             byte[] response = Encoding.UTF8.GetBytes("FAIL");
-                            stream.Write(response, 0, response.Length); Console.WriteLine("Authentication failed: " + username);
+                            stream.Write(response, 0, response.Length);
+                            Console.WriteLine("Authentication failed: " + username);
                         }
                     }
                 }
@@ -238,21 +282,27 @@ class Server
         }
     }
 
-    private static string GetSongList() {
-        string query = "SELECT songname, artistname FROM Songs"; 
+    private static string GetSongList()
+    {
+        string query = "SELECT songname, artistname FROM Songs";
         List<string> songs = new List<string>();
-        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
             SqlCommand command = new SqlCommand(query, connection);
-            try { connection.Open(); 
+            try
+            {
+                connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read()) {
+                while (reader.Read())
+                {
                     string songName = reader["songname"].ToString();
                     string artist = reader["artistname"].ToString();
-                    songs.Add($"{songName}:{artist}"); 
+                    songs.Add($"{songName}:{artist}");
                 }
             }
-            catch (SqlException ex) {
-                Console.WriteLine(ex.Message); 
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
         return string.Join(",", songs);
@@ -301,37 +351,111 @@ class Server
         }
         return null;
     }
-    private static void AddSong(string songName, string artist, byte[] songFile) {
-        string query = "INSERT INTO Songs (songname, artistname, song_file) VALUES (@songName, @artist, @songFile)"; 
-        using (SqlConnection connection = new SqlConnection(connectionString)) {
-            SqlCommand command = new SqlCommand(query, connection); 
+    private static void AddSong(string songName, string artist, byte[] songFile)
+    {
+        string query = "INSERT INTO Songs (songname, artistname, song_file) VALUES (@songName, @artist, @songFile)";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@songName", songName);
             command.Parameters.AddWithValue("@artist", artist);
             command.Parameters.AddWithValue("@songFile", songFile);
-            try { 
-                connection.Open(); command.ExecuteNonQuery(); 
+            try
+            {
+                connection.Open(); command.ExecuteNonQuery();
             }
-            catch (SqlException ex) {
-                Console.WriteLine(ex.Message); 
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
 
-    private static bool DeleteSong(string songName) {
+    private static bool DeleteSong(string songName)
+    {
         string query = "DELETE FROM Songs WHERE songname = @songName";
-        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@songName", songName);
-            try { connection.Open();
+            try
+            {
+                connection.Open();
                 int rowsAffected = command.ExecuteNonQuery();
-                return rowsAffected > 0; 
+                return rowsAffected > 0;
             }
-            catch (SqlException ex) {
+            catch (SqlException ex)
+            {
                 Console.WriteLine(ex.Message);
-                return false; 
+                return false;
             }
-        } 
+        }
     }
 
-
+    private static bool UpdateUserToken(string username, string token)
+    {
+        string query = "UPDATE Users SET token = @token WHERE username = @username";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@token", token);
+            command.Parameters.AddWithValue("@username", username);
+            try
+            {
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message); return false;
+            }
+        }
+    }
+    private static bool LogoutUser(string username)
+    {
+        string query = "UPDATE Users SET token = NULL WHERE username = @username";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username);
+            try
+            {
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message); return false;
+            }
+        }
+    }
+    private static bool ValidateToken(string token, out string username, out string email)
+    {
+        username = "";
+        email = ""; string query = "SELECT username, email FROM Users WHERE token = @token";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@token", token);
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    username = reader["username"].ToString();
+                    email = reader["email"].ToString();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+    }
 }

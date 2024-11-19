@@ -26,13 +26,15 @@ namespace DA_MusicApp
         private bool isDeleteMode = false;
         private int currentRowIndex = -1;
         private DataTable songDataTable;
-        public MainForm(string username, string email)
+        signin signin;
+        public MainForm(string username, string email, signin signin)
         {
             InitializeComponent();
             this.username = username;
             this.email = email;
             LoadData();
             LoadSongList();
+            this.signin = signin;
         }
 
         private void LoadData()
@@ -54,19 +56,19 @@ namespace DA_MusicApp
                     int bytes = stream.Read(responseData, 0, responseData.Length);
                     string response = Encoding.UTF8.GetString(responseData, 0, bytes);
                     string[] songs = response.Split(',');
-                    var dataTable = new System.Data.DataTable();
-                    dataTable.Columns.Add("Song Name");
-                    dataTable.Columns.Add("Artist");
+                    songDataTable = new DataTable();
+                    songDataTable.Columns.Add("Song Name");
+                    songDataTable.Columns.Add("Artist");
                     foreach (var song in songs)
                     {
                         var songDetails = song.Split(':');
                         if (songDetails.Length == 2)
                         {
-                            dataTable.Rows.Add(songDetails[0], songDetails[1]);
+                            songDataTable.Rows.Add(songDetails[0], songDetails[1]);
                         }
-                        else dataTable.Rows.Add(songDetails[0]);
+                        else songDataTable.Rows.Add(songDetails[0]);
                     }
-                    songList.DataSource = dataTable;
+                    songList.DataSource = songDataTable;
                     songList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 }
             }
@@ -81,9 +83,31 @@ namespace DA_MusicApp
         private void btnLogout_Click(object sender, EventArgs e)
         {
 
-            signin signin = new signin();
-            signin.Show();
-            this.Close();
+            try { 
+                using (TcpClient client = new TcpClient(server, port)) {
+                    NetworkStream stream = client.GetStream();
+                    string message = $"LOGOUT:{this.username}";
+                    byte[] data = Encoding.UTF8.GetBytes(message);
+                    stream.Write(data, 0, data.Length);
+                    byte[] responseData = new byte[256];
+                    int bytes = stream.Read(responseData, 0, responseData.Length); 
+                    string response = Encoding.UTF8.GetString(responseData, 0, bytes);
+                    if (response == "SUCCESS") {
+                        MessageBox.Show("Logout successful!");
+                        if (File.Exists("token.txt")) { 
+                            File.Delete("token.txt"); 
+                        }
+                        signin.Show();
+                        this.Close(); 
+                    }
+                    else {
+                        MessageBox.Show("Logout failed. Please try again."); 
+                    }
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show("Exception: " + ex.Message); 
+            }
         }
 
         private void songList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -125,7 +149,7 @@ namespace DA_MusicApp
                     int bytes = stream.Read(songData, 0, songData.Length);
                     if (bytes > 0)
                     {
-                        Plays playForm = new Plays(songData,this.currentRowIndex);
+                        Plays playForm = new Plays(songData, this.currentRowIndex);
                         playForm.Show();
                     }
                     else
@@ -149,27 +173,50 @@ namespace DA_MusicApp
         private void btnDeleteSong_Click(object sender, EventArgs e)
         {
             isDeleteMode = !isDeleteMode;
-            btnDeleteSong.Text = isDeleteMode ? "Cancel Delete" : "Delete Song"; 
+            btnDeleteSong.Text = isDeleteMode ? "Cancel Delete" : "Delete Song";
             Cursor = isDeleteMode ? Cursors.Hand : Cursors.Default; // Thay đổi con trỏ thành hình thùng rác
         }
         private void DeleteSong(string songName)
         {
-            try { 
-                using (TcpClient client = new TcpClient(server, port)) {
+            try
+            {
+                using (TcpClient client = new TcpClient(server, port))
+                {
                     NetworkStream stream = client.GetStream();
                     string message = $"DELETE_SONG:{songName}";
                     byte[] data = Encoding.UTF8.GetBytes(message);
-                    stream.Write(data, 0, data.Length); 
+                    stream.Write(data, 0, data.Length);
                     byte[] responseData = new byte[1024];
                     int bytes = stream.Read(responseData, 0, responseData.Length);
                     string response = Encoding.UTF8.GetString(responseData, 0, bytes);
-                    if (response == "SUCCESS") { MessageBox.Show("Song deleted successfully!"); 
-                        LoadSongList(); } else { MessageBox.Show("Failed to delete song."); 
+                    if (response == "SUCCESS")
+                    {
+                        MessageBox.Show("Song deleted successfully!");
+                        LoadSongList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete song.");
                     }
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Exception: " + ex.Message); 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string filterText = txtSearch.Text.ToLower();
+            DataView dv = songDataTable.DefaultView; 
+            dv.RowFilter = $"[Song Name] LIKE '%{filterText}%' OR [Artist] LIKE '%{filterText}%'";
+            songList.DataSource = dv;
         }
     }
 }
