@@ -7,6 +7,8 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using NAudio.Wave;
 using System.Reflection.PortableExecutable;
+using static System.Collections.Specialized.BitVector32;
+using System.Data;
 
 class Server
 {
@@ -133,36 +135,69 @@ class Server
                         stream.Write(response, 0, response.Length); Console.WriteLine("Song not found: " + songName);
                     }
                 }
-                if (parts.Length == 2 && parts[0] == "DELETE_SONG")
+                if (parts.Length == 2)
                 {
-                    string songName = message.Split(':')[1];
-                    bool success = DeleteSong(songName);
-                    string response = success ? "SUCCESS" : "FAILED";
-                    byte[] responseData = Encoding.UTF8.GetBytes(response);
-                    stream.Write(responseData, 0, responseData.Length);
-                }
-                if (parts.Length == 2 && parts[0] == "LOGOUT")
-                {
-                    bool success = LogoutUser(parts[1]);
-                    string response = success ? "SUCCESS" : "FAILED";
-                    byte[] responseData = Encoding.UTF8.GetBytes(response);
-                    stream.Write(responseData, 0, responseData.Length);
-                }
-                if (parts.Length == 2 && parts[0] == "VALIDATE_TOKEN")
-                {
-                    string token = parts[1];
-                    if (ValidateToken(token, out username, out string email))
+                    if (parts[0] == "LOGOUT")
                     {
-                        byte[] response = Encoding.UTF8.GetBytes("VALID");
-                        stream.Write(response, 0, response.Length);
-                        string userInfo = $"{username}:{email}";
-                        byte[] userData = Encoding.UTF8.GetBytes(userInfo);
-                        stream.Write(userData, 0, userData.Length);
+                        bool success = LogoutUser(parts[1]);
+                        string response = success ? "SUCCESS" : "FAILED";
+                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseData, 0, responseData.Length);
                     }
-                    else
+                    if (parts[0] == "VALIDATE_TOKEN")
                     {
-                        byte[] response = Encoding.UTF8.GetBytes("INVALID");
-                        stream.Write(response, 0, response.Length);
+                        string token = parts[1];
+                        if (ValidateToken(token, out username, out string email))
+                        {
+                            byte[] response = Encoding.UTF8.GetBytes("VALID");
+                            stream.Write(response, 0, response.Length);
+                            string userInfo = $"{username}:{email}";
+                            byte[] userData = Encoding.UTF8.GetBytes(userInfo);
+                            stream.Write(userData, 0, userData.Length);
+                        }
+                        else
+                        {
+                            byte[] response = Encoding.UTF8.GetBytes("INVALID");
+                            stream.Write(response, 0, response.Length);
+                        }
+                    }
+                    if (parts[0] == "GET_PLAYLISTS")
+                    {
+                        string playlists = GetUserPlaylists(parts[1]);
+                        byte[] playlistData = Encoding.UTF8.GetBytes(playlists);
+                        stream.Write(playlistData, 0, playlistData.Length);
+                    }
+                }
+                else if (parts.Length == 3 )
+                {
+                    if (parts[0] == "GET_SONGS_BY_PLAYLIST") {
+                        string playlistName = parts[2];
+                        string songs = GetSongsByPlaylist(parts[1], playlistName);
+                        byte[] songData = Encoding.UTF8.GetBytes(songs);
+                        byte[] songSize = BitConverter.GetBytes(songData.Length);
+                        stream.Write(songSize, 0, songSize.Length);
+                        stream.Write(songData, 0, songData.Length);
+                    }
+                    if (parts[0] == "CREATE_PLAYLIST")
+                    {
+                        Console.WriteLine("aa");
+                        bool success = CreatePlaylist(parts[1], parts[2]); 
+                        string response = success ? "SUCCESS" : "FAIL";
+                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseData, 0, responseData.Length);
+                    }
+                    if (parts[0] == "DELETE_PLAYLIST") { 
+                        bool success = DeletePlaylist(parts[1], parts[2]); 
+                        string response = success ? "SUCCESS" : "FAIL"; 
+                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseData, 0, responseData.Length); 
+                    }
+                    if (parts[0] == "DELETE_SONG")
+                    {
+                        bool success = DeleteSong(parts[1], parts[2]);
+                        string response = success ? "SUCCESS" : "FAILED";
+                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseData, 0, responseData.Length);
                     }
                 }
                 else
@@ -195,7 +230,12 @@ class Server
                             }
                         }
                     }
-
+                    else if (parts[0] == "ADD_SONG_TO_PLAYLIST") {
+                        bool success = AddSongToPlaylist(parts[1], parts[2], parts[3]);
+                        string response = success ? "SUCCESS" : "FAIL"; 
+                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseData, 0, responseData.Length); 
+                    }
                     else
                     {
                         if (AuthenticateUser(username, password, hashedPassword, saltString))
@@ -300,7 +340,7 @@ class Server
             {
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                while (reader.Read() )
                 {
                     string songName = reader["songname"].ToString();
                     string artist = reader["artistname"].ToString();
@@ -378,23 +418,21 @@ class Server
         }
     }
 
-    private static bool DeleteSong(string songName)
+    private static bool DeleteSong(string songName,string artist)
     {
-        string query = "DELETE FROM Songs WHERE songname = @songName";
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            SqlCommand command = new SqlCommand(query, connection);
+        using (SqlConnection connection = new SqlConnection(connectionString)) {
+            SqlCommand command = new SqlCommand("DeleteSong", connection) { 
+                CommandType = CommandType.StoredProcedure };
             command.Parameters.AddWithValue("@songName", songName);
-            try
-            {
+            command.Parameters.AddWithValue("@artistName", artist);
+            try {
                 connection.Open();
                 int rowsAffected = command.ExecuteNonQuery();
                 return rowsAffected > 0;
             }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
+            catch (SqlException ex) { 
+                Console.WriteLine(ex.Message); 
+                return false; 
             }
         }
     }
@@ -465,4 +503,103 @@ class Server
             }
         }
     }
+
+    private static string GetUserPlaylists(string username) {
+        string query = "SELECT Name FROM Playlists WHERE UserId = (SELECT UserId FROM Users WHERE Username = @username)";
+        List<string> playlists = new List<string>();
+        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username);
+            try {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    string playlistName = reader["Name"].ToString();
+                    if (!string.IsNullOrWhiteSpace(playlistName)) {
+                        playlists.Add(playlistName); 
+                    }
+                }
+            }
+            catch (SqlException ex) { 
+                Console.WriteLine(ex.Message); 
+            }
+        }
+        return string.Join(",", playlists); 
+    }
+
+    private static string GetSongsByPlaylist(string username, string playlistName) { 
+        string query = "SELECT SongName, Artist FROM PlaylistSongs WHERE PlaylistId = (SELECT PlaylistId FROM Playlists WHERE Name = @playlistName AND UserId = (SELECT UserId FROM Users WHERE Username = @username))";
+        List<string> songs = new List<string>();
+        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@playlistName", playlistName);
+            try {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader(); 
+                while (reader.Read()) {
+                    string songName = reader["SongName"].ToString();
+                    string artist = reader["Artist"].ToString();
+                    if (!string.IsNullOrWhiteSpace(songName) && !string.IsNullOrWhiteSpace(artist)) {
+                        songs.Add($"{songName}:{artist}"); 
+                    }
+                }
+            }
+            catch (SqlException ex) {
+                Console.WriteLine(ex.Message); 
+            }
+        }
+        return string.Join(",", songs); 
+    }
+
+    private static bool CreatePlaylist(string username, string playlistName) { 
+        string query = "INSERT INTO Playlists (UserId, Name) VALUES ((SELECT UserId FROM Users WHERE Username = @username), @playlistName)";
+        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+            SqlCommand command = new SqlCommand(query, connection); 
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@playlistName", playlistName);
+            try {
+                connection.Open(); int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0; 
+            }
+            catch (SqlException ex) {
+                Console.WriteLine(ex.Message); return false; 
+            }
+        }
+    }
+
+    private static bool DeletePlaylist(string username, string playlistName) { 
+        string query = "DELETE FROM Playlists WHERE Name = @playlistName AND UserId = (SELECT UserId FROM Users WHERE Username = @username)";
+        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username); 
+            command.Parameters.AddWithValue("@playlistName", playlistName);
+            try {
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0; 
+            }
+            catch (SqlException ex) {
+                Console.WriteLine(ex.Message); return false; 
+            }
+        }
+    }
+
+    private static bool AddSongToPlaylist(string username, string playlistName, string songName) { 
+        string query = "INSERT INTO PlaylistSongs (PlaylistId, SongName, Artist) VALUES ((SELECT PlaylistId FROM Playlists WHERE Name = @playlistName AND UserId = (SELECT UserId FROM Users WHERE Username = @username)), @songName, (SELECT artistname FROM Songs WHERE songname = @songName))";
+        using (SqlConnection connection = new SqlConnection(connectionString)) {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@playlistName", playlistName);
+            command.Parameters.AddWithValue("@songName", songName); 
+            try {
+                connection.Open(); 
+                int rowsAffected = command.ExecuteNonQuery(); 
+                return rowsAffected > 0; 
+            }
+            catch (SqlException ex) {
+                Console.WriteLine(ex.Message); return false; 
+            }
+        }
+    }   
 }

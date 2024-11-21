@@ -13,14 +13,16 @@ namespace DA_MusicApp
 {
     public partial class AddSongForm : Form
     {
-        public AddSongForm(MainForm mainForm)
+        public AddSongForm(MainForm mainForm,Plays plays)
         {
             InitializeComponent();
             this.mainForm = mainForm;
+            this.plays = plays;
         }
         string server = "127.0.0.1"; // Server IP
         int port = 12345; // Server port
         private MainForm mainForm;
+        private Plays plays;
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
@@ -54,6 +56,8 @@ namespace DA_MusicApp
                     if (response == "SUCCESS") { 
                         MessageBox.Show("Song added successfully!"); 
                         mainForm.LoadSongList();
+                        plays.reloadsonglist();
+
                         this.Close(); 
                     }
                     else {

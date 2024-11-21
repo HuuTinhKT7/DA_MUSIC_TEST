@@ -45,6 +45,7 @@
             picShuffle = new PictureBox();
             picLoop = new PictureBox();
             songList = new DataGridView();
+            btnAddtoPlaylist = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -61,6 +62,7 @@
             btnAllsongs.TabIndex = 3;
             btnAllsongs.Text = "All Songs";
             btnAllsongs.UseVisualStyleBackColor = true;
+            btnAllsongs.Click += btnAllsongs_Click;
             // 
             // btnPlaylist
             // 
@@ -70,6 +72,7 @@
             btnPlaylist.TabIndex = 4;
             btnPlaylist.Text = "Playlist";
             btnPlaylist.UseVisualStyleBackColor = true;
+            btnPlaylist.Click += btnPlaylist_Click;
             // 
             // btnArtists
             // 
@@ -79,6 +82,7 @@
             btnArtists.TabIndex = 5;
             btnArtists.Text = "Artists";
             btnArtists.UseVisualStyleBackColor = true;
+            btnArtists.Click += btnArtists_Click;
             // 
             // pictureBox1
             // 
@@ -203,16 +207,30 @@
             songList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             songList.Location = new Point(39, 128);
             songList.Name = "songList";
+            songList.ReadOnly = true;
             songList.RowHeadersWidth = 62;
+            songList.SelectionMode = DataGridViewSelectionMode.CellSelect;
             songList.Size = new Size(504, 418);
             songList.TabIndex = 20;
+            songList.CellClick += songList_CellClick;
             songList.CellContentDoubleClick += songList_CellContentDoubleClick;
+            // 
+            // btnAddtoPlaylist
+            // 
+            btnAddtoPlaylist.Location = new Point(549, 462);
+            btnAddtoPlaylist.Name = "btnAddtoPlaylist";
+            btnAddtoPlaylist.Size = new Size(160, 34);
+            btnAddtoPlaylist.TabIndex = 21;
+            btnAddtoPlaylist.Text = "Add to playlist";
+            btnAddtoPlaylist.UseVisualStyleBackColor = true;
+            btnAddtoPlaylist.Click += btnAddtoPlaylist_Click;
             // 
             // Plays
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(721, 738);
+            Controls.Add(btnAddtoPlaylist);
             Controls.Add(songList);
             Controls.Add(picLoop);
             Controls.Add(picShuffle);
@@ -225,6 +243,7 @@
             Name = "Plays";
             Text = "Plays";
             FormClosing += Plays_FormClosing;
+            Shown += Plays_Shown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -253,5 +272,6 @@
         private PictureBox picShuffle;
         private PictureBox picLoop;
         private DataGridView songList;
+        private Button btnAddtoPlaylist;
     }
 }

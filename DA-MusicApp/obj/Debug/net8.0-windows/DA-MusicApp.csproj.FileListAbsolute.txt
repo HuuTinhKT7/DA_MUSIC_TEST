@@ -42,3 +42,6 @@ D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\Interop.WMPLib.dll
 D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\AxInterop.WMPLib.dll
 D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA-MusicApp.csproj.ResolveComReference.cache
 D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.UpdateSongForm.resources
+D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.ArtistSelectionForm.resources
+D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.PlaylistSelectionForm.resources
+D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.CreatePlaylistForm.resources

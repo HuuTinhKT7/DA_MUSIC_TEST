@@ -27,6 +27,7 @@ namespace DA_MusicApp
         private int currentRowIndex = -1;
         private DataTable songDataTable;
         signin signin;
+        Plays plays;
         int signinbytoken = 0;
 
         public MainForm(string username, string email, signin signin, int signinbytoken)
@@ -128,12 +129,13 @@ namespace DA_MusicApp
             {
                 this.currentRowIndex = e.RowIndex;
                 selectedSongName = songList.Rows[e.RowIndex].Cells[0].Value.ToString();
+                string slArtist = songList.Rows[e.RowIndex].Cells[1].Value.ToString();
                 if (isDeleteMode)
                 {
                     var confirmResult = MessageBox.Show($"Are you sure to delete '{selectedSongName}'?", "Confirm Delete", MessageBoxButtons.OKCancel);
                     if (confirmResult == DialogResult.OK)
                     {
-                        DeleteSong(selectedSongName);
+                        DeleteSong(selectedSongName,slArtist);
                     }
                     // Tắt chế độ xóa sau khi xóa hoặc hủy
                     isDeleteMode = false;
@@ -161,7 +163,8 @@ namespace DA_MusicApp
                     int bytes = stream.Read(songData, 0, songData.Length);
                     if (bytes > 0)
                     {
-                        Plays playForm = new Plays(songData, this.currentRowIndex);
+                        Plays playForm = new Plays(songData, this.currentRowIndex,username);
+                        plays = playForm;
                         playForm.Show();
                     }
                     else
@@ -178,8 +181,9 @@ namespace DA_MusicApp
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddSongForm addSongForm = new AddSongForm(this);
+            AddSongForm addSongForm = new AddSongForm(this,plays);
             addSongForm.Show();
+
         }
 
         private void btnDeleteSong_Click(object sender, EventArgs e)
@@ -188,14 +192,14 @@ namespace DA_MusicApp
             btnDeleteSong.Text = isDeleteMode ? "Cancel Delete" : "Delete Song";
             Cursor = isDeleteMode ? Cursors.Hand : Cursors.Default; // Thay đổi con trỏ thành hình thùng rác
         }
-        private void DeleteSong(string songName)
+        private void DeleteSong(string songName,string artist)
         {
             try
             {
                 using (TcpClient client = new TcpClient(server, port))
                 {
                     NetworkStream stream = client.GetStream();
-                    string message = $"DELETE_SONG:{songName}";
+                    string message = $"DELETE_SONG:{songName}:{artist}";
                     byte[] data = Encoding.UTF8.GetBytes(message);
                     stream.Write(data, 0, data.Length);
                     byte[] responseData = new byte[1024];
@@ -205,6 +209,7 @@ namespace DA_MusicApp
                     {
                         MessageBox.Show("Song deleted successfully!");
                         LoadSongList();
+                        plays.reloadsonglist();
                     }
                     else
                     {
