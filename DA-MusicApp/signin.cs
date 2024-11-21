@@ -6,7 +6,7 @@
     {
     public partial class signin : Form
     {
-        string server = "127.0.0.1"; // Server IP
+        string server = "10.0.102.123"; // Server IP
         int port = 12345; // Server port
         private PasswordHasher passwordHasher = new PasswordHasher();
         
@@ -96,7 +96,7 @@
             email = "";
             try
             {
-                using (TcpClient client = new TcpClient("127.0.0.1", 12345))
+                using (TcpClient client = new TcpClient("10.0.102.123", 12345))
                 {
                     NetworkStream stream = client.GetStream();
                     string message = $"VALIDATE_TOKEN:{token}";

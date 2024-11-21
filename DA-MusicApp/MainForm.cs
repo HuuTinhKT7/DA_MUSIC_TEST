@@ -20,7 +20,7 @@ namespace DA_MusicApp
         }
         string? username;
         string? email;
-        string server = "127.0.0.1"; // Server IP
+        string server = "10.0.102.123"; // Server IP
         int port = 12345; // Server port
         private string selectedSongName;
         private string selectedArtist;

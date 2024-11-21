@@ -31,7 +31,7 @@ namespace DA_MusicApp
             {
                 try
                 {
-                    using (TcpClient client = new TcpClient("127.0.0.1", 12345))
+                    using (TcpClient client = new TcpClient("10.0.102.123", 12345))
                     {
                         NetworkStream stream = client.GetStream();
                         string message = $"CREATE_PLAYLIST:{username}:{playlistName}";

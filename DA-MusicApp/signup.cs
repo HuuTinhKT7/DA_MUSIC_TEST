@@ -18,7 +18,7 @@ namespace DA_MusicApp
 {
     public partial class signup : Form
     {
-        string server = "127.0.0.1"; // Server IP
+        string server = "10.0.102.123"; // Server IP
         int port = 12345; // Server port
         private PasswordHasher passwordHasher = new PasswordHasher();
         signin signin;

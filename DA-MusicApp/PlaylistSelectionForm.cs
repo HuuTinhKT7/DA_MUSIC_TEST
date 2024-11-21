@@ -20,7 +20,7 @@ namespace DA_MusicApp
         }
         private string username;
         private bool isok = false;
-        private string server = "127.0.0.1";
+        private string server = "10.0.102.123";
         private int port = 12345;
         bool reload = false;
         string? mode;
@@ -51,7 +51,7 @@ namespace DA_MusicApp
             listBoxPlaylists.Items.Clear();
             try
             {
-                using (TcpClient client = new TcpClient("127.0.0.1", 12345))
+                using (TcpClient client = new TcpClient("10.0.102.123", 12345))
                 {
                     NetworkStream stream = client.GetStream();
                     string message = $"GET_PLAYLISTS:{username}";
