@@ -13,7 +13,7 @@ namespace DA_MusicApp
 {
     public partial class AddSongForm : Form
     {
-        public AddSongForm(MainForm mainForm,Plays plays)
+        public AddSongForm(MainForm mainForm, Plays plays)
         {
             InitializeComponent();
             this.mainForm = mainForm;
@@ -36,36 +36,50 @@ namespace DA_MusicApp
 
         private void btnAddSong_Click(object sender, EventArgs e)
         {
-            try {
-                using (TcpClient client = new TcpClient(server, port)) {
-                    NetworkStream stream = client.GetStream(); 
-                    string songName = txtSongName.Text;
-                    string artist = txtArtistName.Text;
-                    string filePath = txtFilePath.Text;
-                    byte[] songFile = File.ReadAllBytes(filePath);
-                    string songFileBase64 = Convert.ToBase64String(songFile);
-                    string message = $"ADD_SONG:{songName}:{artist}:{songFileBase64}";
-                    string message0 = "ADDSONG";
-                    byte[] data0 = Encoding.UTF8.GetBytes(message0); 
-                    stream.Write(data0, 0, data0.Length);
-                    byte[] data = Encoding.UTF8.GetBytes(message);
-                    stream.Write(data, 0, data.Length);
-                    byte[] responseData = new byte[1024];
-                    int bytes = stream.Read(responseData, 0, responseData.Length);
-                    string response = Encoding.UTF8.GetString(responseData, 0, bytes); 
-                    if (response == "SUCCESS") { 
-                        MessageBox.Show("Song added successfully!"); 
-                        mainForm.LoadSongList();
-                        plays.reloadsonglist();
+            if (!(string.IsNullOrEmpty(txtArtistName.Text)||string.IsNullOrEmpty(txtSongName.Text)))
+            {
+                try
+                {
+                    using (TcpClient client = new TcpClient(server, port))
+                    {
+                        NetworkStream stream = client.GetStream();
+                        string songName = txtSongName.Text;
+                        string artist = txtArtistName.Text;
+                        string filePath = txtFilePath.Text;
+                        byte[] songFile = File.ReadAllBytes(filePath);
+                        string songFileBase64 = Convert.ToBase64String(songFile);
+                        string message = $"ADD_SONG:{songName}:{artist}:{songFileBase64}";
+                        string message0 = "ADDSONG";
+                        byte[] data0 = Encoding.UTF8.GetBytes(message0);
+                        stream.Write(data0, 0, data0.Length);
+                        byte[] data = Encoding.UTF8.GetBytes(message);
+                        stream.Write(data, 0, data.Length);
+                        byte[] responseData = new byte[1024];
+                        int bytes = stream.Read(responseData, 0, responseData.Length);
+                        string response = Encoding.UTF8.GetString(responseData, 0, bytes);
+                        if (response == "SUCCESS")
+                        {
+                            MessageBox.Show("Song added successfully!");
+                            mainForm.LoadSongList();
+                            if (plays != null)
+                                plays.reloadsonglist();
 
-                        this.Close(); 
-                    }
-                    else {
-                        MessageBox.Show("Failed to add song."); 
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to add song.");
+                        }
                     }
                 }
-            } catch (Exception ex) {
-                MessageBox.Show("Exception: " + ex.Message); 
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Exception: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng nhập đủ thông tin");
             }
         }
     }

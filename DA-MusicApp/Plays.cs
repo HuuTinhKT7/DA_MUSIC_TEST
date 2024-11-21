@@ -325,9 +325,10 @@ namespace DA_MusicApp
             currentMode = "All Songs";
             LoadSongList();
             lbAllsongs.Text = "All songs (x songs)";
-
-
-
+            if(btnAddtoPlaylist.Visible == false)
+            {
+                btnAddtoPlaylist.Visible = true;
+            }
         }
 
         private void Plays_Shown(object sender, EventArgs e)
@@ -363,13 +364,16 @@ namespace DA_MusicApp
 
         private void btnArtists_Click(object sender, EventArgs e)
         {
-            currentMode = "Artist";
+            
             ArtistSelectionForm artistSelectionForm = new ArtistSelectionForm(artists);
             if (artistSelectionForm.ShowDialog() == DialogResult.OK)
             {
-                 selectedArtist = artistSelectionForm.SelectedArtist;
+                currentMode = "Artist";
+                selectedArtist = artistSelectionForm.SelectedArtist;
                 LoadSongsByArtist(selectedArtist);
                 lbAllsongs.Text = "Artist: " + selectedArtist;
+                if(btnAddtoPlaylist.Visible==false)
+                    btnAddtoPlaylist.Visible = true;
             }
         }
 
@@ -412,13 +416,16 @@ namespace DA_MusicApp
 
         private void btnPlaylist_Click(object sender, EventArgs e)
         {
-            currentMode = "Playlist";
+            
             PlaylistSelectionForm playlistSelectionForm = new PlaylistSelectionForm(username);
             if (playlistSelectionForm.ShowDialog() == DialogResult.OK)
             {
+                currentMode = "Playlist";
                 this.selectedPlaylist = playlistSelectionForm.SelectedPlaylist;
                 LoadSongsByPlaylist(selectedPlaylist);
                 lbAllsongs.Text = "Playlist: " + selectedPlaylist;
+                if(btnAddtoPlaylist.Visible == true)
+                    btnAddtoPlaylist.Visible = false;
             }
         }
 

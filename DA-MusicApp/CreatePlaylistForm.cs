@@ -47,6 +47,9 @@ namespace DA_MusicApp
                             isok = true;
                             this.Close();
                         }
+                        else if (response == "EXISTS") {
+                            MessageBox.Show("Playlist already exists. Please choose a different name.");
+                        }
                         else
                         {
                             MessageBox.Show("Failed to create playlist.");

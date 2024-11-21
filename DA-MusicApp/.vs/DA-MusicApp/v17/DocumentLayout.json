@@ -3,43 +3,43 @@
   "WorkspaceRootPath": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\addsongform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:addsongform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\addsongform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\addsongform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:addsongform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\playlistselectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:playlistselectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\createplaylistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\createplaylistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:createplaylistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\playlistselectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\playlistselectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:playlistselectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\playlistselectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:playlistselectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|d:\\2025\\2025-1\\ltmcb\\da-musicapp\\createplaylistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\addsongform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:addsongform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:plays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\createplaylistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{FBE18E7F-7ADA-49D3-98F3-17AA34A52A99}|DA-MusicApp.csproj|solutionrelative:createplaylistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "Plays.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\Plays.cs",
               "RelativeToolTip": "Plays.cs",
-              "ViewState": "AQIAAHEBAAAAAAAAAAAkwAICAAAyAAAA",
+              "ViewState": "AQIAAHQBAAAAAAAAAAAqwJ8BAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-19T08:19:17.488Z",
               "IsPinned": true,
@@ -72,79 +72,73 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "AddSongForm.cs",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\AddSongForm.cs",
               "RelativeDocumentMoniker": "AddSongForm.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\AddSongForm.cs",
               "RelativeToolTip": "AddSongForm.cs",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAgwDoAAAAvAAAA",
+              "ViewState": "AQIAADsAAAAAAAAAAAAgwEUAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T11:26:42.142Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-21T11:26:42.142Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "AddSongForm.cs [Design]",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\AddSongForm.cs",
               "RelativeDocumentMoniker": "AddSongForm.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\AddSongForm.cs [Design]",
               "RelativeToolTip": "AddSongForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T11:26:40.133Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-21T11:26:40.133Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainForm.cs",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs",
               "RelativeDocumentMoniker": "MainForm.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs",
               "RelativeToolTip": "MainForm.cs",
-              "ViewState": "AQIAAMIAAAAAAAAAAAAIwMkAAABFAAAA",
+              "ViewState": "AQIAALgAAAAAAAAAAAAuwMoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T11:24:11.96Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-21T11:24:11.96Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "MainForm.cs [Design]",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs",
               "RelativeDocumentMoniker": "MainForm.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\MainForm.cs [Design]",
               "RelativeToolTip": "MainForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T11:24:09.413Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-21T11:24:09.413Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "PlaylistSelectionForm.cs",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\PlaylistSelectionForm.cs",
               "RelativeDocumentMoniker": "PlaylistSelectionForm.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\PlaylistSelectionForm.cs",
               "RelativeToolTip": "PlaylistSelectionForm.cs",
-              "ViewState": "AQIAACgAAAAAAAAAAAAkwG4AAAAYAAAA",
+              "ViewState": "AQIAAFUAAAAAAAAAAAAEwFkAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T10:21:57.182Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-21T10:21:57.182Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "CreatePlaylistForm.cs",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\CreatePlaylistForm.cs",
               "RelativeDocumentMoniker": "CreatePlaylistForm.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\CreatePlaylistForm.cs",
               "RelativeToolTip": "CreatePlaylistForm.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAAgwEAAAAAWAAAA",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAgwCoAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T10:05:24.067Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-21T10:05:24.067Z"
             },
             {
               "$type": "Document",
@@ -155,32 +149,29 @@
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\CreatePlaylistForm.cs [Design]",
               "RelativeToolTip": "CreatePlaylistForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T10:05:09.484Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-21T10:05:09.484Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 6,
               "Title": "PlaylistSelectionForm.cs [Design]",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\PlaylistSelectionForm.cs",
               "RelativeDocumentMoniker": "PlaylistSelectionForm.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\PlaylistSelectionForm.cs [Design]",
               "RelativeToolTip": "PlaylistSelectionForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T09:42:08.232Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-21T09:42:08.232Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "Plays.cs [Design]",
               "DocumentMoniker": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\Plays.cs",
               "RelativeDocumentMoniker": "Plays.cs",
               "ToolTip": "D:\\2025\\2025-1\\LTMCB\\DA-MusicApp\\Plays.cs [Design]",
               "RelativeToolTip": "Plays.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T08:17:49.109Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-19T08:17:49.109Z"
             }
           ]
         },

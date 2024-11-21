@@ -23,6 +23,7 @@ namespace DA_MusicApp
         string server = "127.0.0.1"; // Server IP
         int port = 12345; // Server port
         private string selectedSongName;
+        private string selectedArtist;
         private bool isDeleteMode = false;
         private int currentRowIndex = -1;
         private DataTable songDataTable;
@@ -39,6 +40,7 @@ namespace DA_MusicApp
             LoadSongList();
             this.signin = signin;
             this.signinbytoken = signinbytoken;
+            btnDeleteSong.Enabled = false;
 
         }
 
@@ -130,22 +132,8 @@ namespace DA_MusicApp
                 this.currentRowIndex = e.RowIndex;
                 selectedSongName = songList.Rows[e.RowIndex].Cells[0].Value.ToString();
                 string slArtist = songList.Rows[e.RowIndex].Cells[1].Value.ToString();
-                if (isDeleteMode)
-                {
-                    var confirmResult = MessageBox.Show($"Are you sure to delete '{selectedSongName}'?", "Confirm Delete", MessageBoxButtons.OKCancel);
-                    if (confirmResult == DialogResult.OK)
-                    {
-                        DeleteSong(selectedSongName,slArtist);
-                    }
-                    // Tắt chế độ xóa sau khi xóa hoặc hủy
-                    isDeleteMode = false;
-                    btnDeleteSong.Text = "Delete Song";
-                    Cursor = Cursors.Default;
-                }
-                else
-                {
-                    PlaySong(selectedSongName);
-                }
+                PlaySong(selectedSongName);
+
             }
         }
 
@@ -163,7 +151,7 @@ namespace DA_MusicApp
                     int bytes = stream.Read(songData, 0, songData.Length);
                     if (bytes > 0)
                     {
-                        Plays playForm = new Plays(songData, this.currentRowIndex,username);
+                        Plays playForm = new Plays(songData, this.currentRowIndex, username);
                         plays = playForm;
                         playForm.Show();
                     }
@@ -181,18 +169,20 @@ namespace DA_MusicApp
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddSongForm addSongForm = new AddSongForm(this,plays);
+            AddSongForm addSongForm = new AddSongForm(this, plays);
             addSongForm.Show();
 
         }
 
         private void btnDeleteSong_Click(object sender, EventArgs e)
         {
-            isDeleteMode = !isDeleteMode;
-            btnDeleteSong.Text = isDeleteMode ? "Cancel Delete" : "Delete Song";
-            Cursor = isDeleteMode ? Cursors.Hand : Cursors.Default; // Thay đổi con trỏ thành hình thùng rác
+            var confirmResult = MessageBox.Show($"Are you sure to delete '{selectedSongName}'?", "Confirm Delete", MessageBoxButtons.OKCancel);
+            if (confirmResult == DialogResult.OK)
+            {
+                DeleteSong(selectedSongName, selectedArtist);
+            }
         }
-        private void DeleteSong(string songName,string artist)
+        private void DeleteSong(string songName, string artist)
         {
             try
             {
@@ -209,6 +199,7 @@ namespace DA_MusicApp
                     {
                         MessageBox.Show("Song deleted successfully!");
                         LoadSongList();
+                        if(plays!=null)
                         plays.reloadsonglist();
                     }
                     else
@@ -223,10 +214,6 @@ namespace DA_MusicApp
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
@@ -234,6 +221,7 @@ namespace DA_MusicApp
             DataView dv = songDataTable.DefaultView;
             dv.RowFilter = $"[Song Name] LIKE '%{filterText}%' OR [Artist] LIKE '%{filterText}%'";
             songList.DataSource = dv;
+            btnDeleteSong.Enabled = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -243,6 +231,13 @@ namespace DA_MusicApp
         private void MainForm_Shown(object sender, EventArgs e)
         {
             this.signin.Hide();
+        }
+
+        private void songList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnDeleteSong.Enabled = true;
+            selectedSongName = songList.Rows[e.RowIndex].Cells[0].Value.ToString();
+            selectedArtist = songList.Rows[e.RowIndex].Cells[1].Value.ToString();
         }
     }
 }

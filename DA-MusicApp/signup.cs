@@ -94,7 +94,6 @@ namespace DA_MusicApp
                         byte[] responseData = new byte[1024];
                         int bytes = stream.Read(responseData, 0, responseData.Length);
                         string response = Encoding.UTF8.GetString(responseData, 0, bytes);
-                        MessageBox.Show(response);
                         if (response == "SUCCESS")
                         {
                             byte[] tokenData = new byte[256];

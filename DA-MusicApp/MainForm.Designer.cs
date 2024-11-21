@@ -91,6 +91,7 @@
             songList.RowHeadersWidth = 62;
             songList.Size = new Size(424, 543);
             songList.TabIndex = 19;
+            songList.CellClick += songList_CellClick;
             songList.CellContentDoubleClick += songList_CellContentDoubleClick;
             // 
             // txtSearch
