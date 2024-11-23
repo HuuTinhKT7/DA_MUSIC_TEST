@@ -22,6 +22,12 @@
     <Compile Update="Plays.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ShareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ShareRequestsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="signin.cs">
       <SubType>Form</SubType>
     </Compile>

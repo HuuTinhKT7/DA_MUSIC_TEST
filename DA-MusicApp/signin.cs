@@ -1,13 +1,14 @@
 ﻿    using System.Data.SqlClient;
     using System.Net.Sockets;
-    using System.Text;
+using System.Runtime.CompilerServices;
+using System.Text;
 
     namespace DA_MusicApp
     {
     public partial class signin : Form
     {
-        string server = "10.0.102.123"; // Server IP
-        int port = 12345; // Server port
+        public string server = "localhost"; // Server IP
+        public int port = 12345; // Server port
         private PasswordHasher passwordHasher = new PasswordHasher();
         
         public signin()
@@ -90,13 +91,13 @@
                 }
             }
         }
-        static bool ValidateToken(string token, out string username, out string email)
+        bool ValidateToken(string token, out string username, out string email)
         {
             username = "";
             email = "";
             try
             {
-                using (TcpClient client = new TcpClient("10.0.102.123", 12345))
+                using (TcpClient client = new TcpClient(server, 12345))
                 {
                     NetworkStream stream = client.GetStream();
                     string message = $"VALIDATE_TOKEN:{token}";

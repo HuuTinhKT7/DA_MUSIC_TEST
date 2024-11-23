@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Net.Sockets;
@@ -27,10 +28,9 @@ namespace DA_MusicApp
         private byte[] songData;
         private Thread playThread;
         private System.Windows.Forms.Timer timer;
-        string server = "10.0.102.123"; // Server IP
+        string server ; // Server IP
         int port = 12345; // Server port
         private TimeSpan currentTime;
-        private bool isPlaying = true;
         private MemoryStream ms;
         private int currentRowIndex = -1;
         public string currentMode = "All Songs";
@@ -41,10 +41,14 @@ namespace DA_MusicApp
         private string selectedSongName;
         private string selectedPlaylist;
         private string selectedArtist;
+        private TcpClient client;
+        private NetworkStream stream;
+        private Thread listenThread;
 
-        public Plays(byte[] songData, int currentRowIndex, string? username)
+        public Plays(byte[] songData, int currentRowIndex, string? username,string server)
         {
             InitializeComponent();
+            this.server = server;
             LoadSongList();
             timer = new System.Windows.Forms.Timer();
             timer.Interval = 1000; // Cập nhật mỗi giây
@@ -56,8 +60,51 @@ namespace DA_MusicApp
             this.currentRowIndex = currentRowIndex;
             UpdateButtons();
             this.username = username;
-
+            ConnectToServer();
         }
+
+        private void ConnectToServer()
+        {
+            try
+            {
+                client = new TcpClient(server, 12345);
+                stream = client.GetStream();
+                byte[] data = Encoding.UTF8.GetBytes("CONNECT");
+                stream.Write(data, 0, data.Length);
+                listenThread = new Thread(ListenForNotifications);
+                listenThread.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+        private void ListenForNotifications()
+        {
+            try
+            {
+                while (true)
+                {
+                    byte[] buffer = new byte[1024];
+                    int bytes = stream.Read(buffer, 0, buffer.Length);
+                    string message = Encoding.UTF8.GetString(buffer, 0, bytes);
+                    if (message == "UPDATE_SONGLIST")
+                    {
+                        if (this.InvokeRequired) { 
+                            this.Invoke(new Action(LoadSongList)); 
+                        }
+                        else {
+                            LoadSongList(); 
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
+
 
         public void LoadSongList()
         {
@@ -173,7 +220,7 @@ namespace DA_MusicApp
             }
             if (playThread != null && playThread.IsAlive)
             {
-                playThread.Abort();
+                playThread.Join();
             }
             if (timer != null)
             {
@@ -235,7 +282,7 @@ namespace DA_MusicApp
                     string message = $"GET_SONG:{songName}";
                     byte[] data = Encoding.UTF8.GetBytes(message);
                     stream.Write(data, 0, data.Length);
-                    byte[] songData = new byte[10 * 1024 * 1024]; // Assuming max song file size is 10MB
+                    songData = new byte[10 * 1024 * 1024]; // Assuming max song file size is 10MB
                     int bytes = stream.Read(songData, 0, songData.Length);
                     if (bytes > 0)
                     {
@@ -339,7 +386,6 @@ namespace DA_MusicApp
         {
             if (index >= 0 && index < songList.Rows.Count)
             {
-                // Trả dòng thứ 3 về trạng thái bình thường
                 songList.Rows[index].DefaultCellStyle.BackColor = Color.White; // Màu nền mặc định
                 songList.Rows[index].DefaultCellStyle.ForeColor = Color.Black; // Màu chữ mặc định
                 songList.Rows[index].Selected = false; // Bỏ chọn dòng
@@ -417,7 +463,7 @@ namespace DA_MusicApp
         private void btnPlaylist_Click(object sender, EventArgs e)
         {
             
-            PlaylistSelectionForm playlistSelectionForm = new PlaylistSelectionForm(username);
+            PlaylistSelectionForm playlistSelectionForm = new PlaylistSelectionForm(username,server);
             if (playlistSelectionForm.ShowDialog() == DialogResult.OK)
             {
                 currentMode = "Playlist";
@@ -477,7 +523,7 @@ namespace DA_MusicApp
         private void btnAddtoPlaylist_Click(object sender, EventArgs e)
         {
             
-            PlaylistSelectionForm playlistSelectionForm = new PlaylistSelectionForm(username, "AddSong"); 
+            PlaylistSelectionForm playlistSelectionForm = new PlaylistSelectionForm(username, "AddSong",server); 
             if (playlistSelectionForm.ShowDialog() == DialogResult.OK) {
                 string selectedPlaylist = playlistSelectionForm.SelectedPlaylist; 
                 AddSongToPlaylist(selectedPlaylist, selectedSongName); 

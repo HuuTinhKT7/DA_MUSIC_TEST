@@ -38,6 +38,11 @@
             label2 = new Label();
             btnAdd = new Button();
             btnDeleteSong = new Button();
+            btnArtists = new Button();
+            btnPlaylist = new Button();
+            btnAllsongs = new Button();
+            lbAllsongs = new Label();
+            btnAddtoPlaylist = new Button();
             ((System.ComponentModel.ISupportInitialize)songList).BeginInit();
             SuspendLayout();
             // 
@@ -86,26 +91,26 @@
             // songList
             // 
             songList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            songList.Location = new Point(506, 133);
+            songList.Location = new Point(494, 154);
             songList.Name = "songList";
             songList.RowHeadersWidth = 62;
-            songList.Size = new Size(424, 543);
+            songList.Size = new Size(486, 543);
             songList.TabIndex = 19;
             songList.CellClick += songList_CellClick;
             songList.CellContentDoubleClick += songList_CellContentDoubleClick;
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(506, 50);
+            txtSearch.Location = new Point(494, 50);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(424, 31);
+            txtSearch.Size = new Size(486, 31);
             txtSearch.TabIndex = 20;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(506, 22);
+            label2.Location = new Point(494, 22);
             label2.Name = "label2";
             label2.Size = new Size(345, 25);
             label2.TabIndex = 22;
@@ -113,7 +118,7 @@
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(367, 642);
+            btnAdd.Location = new Point(356, 642);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(112, 34);
             btnAdd.TabIndex = 23;
@@ -123,7 +128,7 @@
             // 
             // btnDeleteSong
             // 
-            btnDeleteSong.Location = new Point(367, 587);
+            btnDeleteSong.Location = new Point(356, 587);
             btnDeleteSong.Name = "btnDeleteSong";
             btnDeleteSong.Size = new Size(112, 34);
             btnDeleteSong.TabIndex = 25;
@@ -131,11 +136,65 @@
             btnDeleteSong.UseVisualStyleBackColor = true;
             btnDeleteSong.Click += btnDeleteSong_Click;
             // 
+            // btnArtists
+            // 
+            btnArtists.Location = new Point(868, 93);
+            btnArtists.Name = "btnArtists";
+            btnArtists.Size = new Size(112, 34);
+            btnArtists.TabIndex = 28;
+            btnArtists.Text = "Artists";
+            btnArtists.UseVisualStyleBackColor = true;
+            btnArtists.Click += btnArtists_Click;
+            // 
+            // btnPlaylist
+            // 
+            btnPlaylist.Location = new Point(680, 93);
+            btnPlaylist.Name = "btnPlaylist";
+            btnPlaylist.Size = new Size(112, 34);
+            btnPlaylist.TabIndex = 27;
+            btnPlaylist.Text = "Playlist";
+            btnPlaylist.UseVisualStyleBackColor = true;
+            btnPlaylist.Click += btnPlaylist_Click;
+            // 
+            // btnAllsongs
+            // 
+            btnAllsongs.Location = new Point(494, 93);
+            btnAllsongs.Name = "btnAllsongs";
+            btnAllsongs.Size = new Size(112, 34);
+            btnAllsongs.TabIndex = 26;
+            btnAllsongs.Text = "All Songs";
+            btnAllsongs.UseVisualStyleBackColor = true;
+            btnAllsongs.Click += btnAllsongs_Click;
+            // 
+            // lbAllsongs
+            // 
+            lbAllsongs.AutoSize = true;
+            lbAllsongs.Location = new Point(494, 126);
+            lbAllsongs.Name = "lbAllsongs";
+            lbAllsongs.Size = new Size(161, 25);
+            lbAllsongs.TabIndex = 29;
+            lbAllsongs.Text = "All songs (x songs)";
+            // 
+            // btnAddtoPlaylist
+            // 
+            btnAddtoPlaylist.Location = new Point(308, 537);
+            btnAddtoPlaylist.Name = "btnAddtoPlaylist";
+            btnAddtoPlaylist.Size = new Size(160, 34);
+            btnAddtoPlaylist.TabIndex = 30;
+            btnAddtoPlaylist.Text = "Add to playlist";
+            btnAddtoPlaylist.UseVisualStyleBackColor = true;
+            btnAddtoPlaylist.Click += btnAddtoPlaylist_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1009, 751);
+            Controls.Add(btnAddtoPlaylist);
+            Controls.Add(lbAllsongs);
+            Controls.Add(btnArtists);
+            Controls.Add(btnPlaylist);
+            Controls.Add(btnAllsongs);
             Controls.Add(btnDeleteSong);
             Controls.Add(btnAdd);
             Controls.Add(label2);
@@ -166,5 +225,10 @@
         private Label label2;
         private Button btnAdd;
         private Button btnDeleteSong;
+        private Button btnArtists;
+        private Button btnPlaylist;
+        private Button btnAllsongs;
+        private Label lbAllsongs;
+        private Button btnAddtoPlaylist;
     }
 }

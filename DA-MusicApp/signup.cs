@@ -18,7 +18,7 @@ namespace DA_MusicApp
 {
     public partial class signup : Form
     {
-        string server = "10.0.102.123"; // Server IP
+        string server; // Server IP
         int port = 12345; // Server port
         private PasswordHasher passwordHasher = new PasswordHasher();
         signin signin;
@@ -30,6 +30,7 @@ namespace DA_MusicApp
         {
             InitializeComponent();
             this.signin = signin;
+            this.server = signin.server;
         }
                 
         private bool IsValidEmail(string email)

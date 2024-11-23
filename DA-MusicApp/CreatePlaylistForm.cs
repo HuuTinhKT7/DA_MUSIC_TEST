@@ -19,10 +19,12 @@ namespace DA_MusicApp
         }
         private string username;
         private bool isok = false;
-        public CreatePlaylistForm(string username)
+        private string server;
+        public CreatePlaylistForm(string username,string server)
         {
             InitializeComponent();
             this.username = username;
+            this.server = server;
         }
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -31,7 +33,7 @@ namespace DA_MusicApp
             {
                 try
                 {
-                    using (TcpClient client = new TcpClient("10.0.102.123", 12345))
+                    using (TcpClient client = new TcpClient(server, 12345))
                     {
                         NetworkStream stream = client.GetStream();
                         string message = $"CREATE_PLAYLIST:{username}:{playlistName}";

@@ -32,6 +32,8 @@
             btnOK = new Button();
             btnCreatePlaylist = new Button();
             btnDeletePlaylist = new Button();
+            btnShare = new Button();
+            btnRequest = new Button();
             SuspendLayout();
             // 
             // listBoxPlaylists
@@ -74,11 +76,33 @@
             btnDeletePlaylist.UseVisualStyleBackColor = true;
             btnDeletePlaylist.Click += btnDeletePlaylist_Click;
             // 
+            // btnShare
+            // 
+            btnShare.Location = new Point(380, 41);
+            btnShare.Name = "btnShare";
+            btnShare.Size = new Size(112, 34);
+            btnShare.TabIndex = 5;
+            btnShare.Text = "Share";
+            btnShare.UseVisualStyleBackColor = true;
+            btnShare.Click += btnShare_Click;
+            // 
+            // btnRequest
+            // 
+            btnRequest.Location = new Point(380, 81);
+            btnRequest.Name = "btnRequest";
+            btnRequest.Size = new Size(112, 34);
+            btnRequest.TabIndex = 6;
+            btnRequest.Text = "request";
+            btnRequest.UseVisualStyleBackColor = true;
+            btnRequest.Click += btnRequest_Click;
+            // 
             // PlaylistSelectionForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(525, 407);
+            Controls.Add(btnRequest);
+            Controls.Add(btnShare);
             Controls.Add(btnDeletePlaylist);
             Controls.Add(btnCreatePlaylist);
             Controls.Add(btnOK);
@@ -95,5 +119,7 @@
         private Button btnOK;
         private Button btnCreatePlaylist;
         private Button btnDeletePlaylist;
+        private Button btnShare;
+        private Button btnRequest;
     }
 }

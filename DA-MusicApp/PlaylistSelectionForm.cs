@@ -20,25 +20,27 @@ namespace DA_MusicApp
         }
         private string username;
         private bool isok = false;
-        private string server = "10.0.102.123";
+        private string server;
         private int port = 12345;
         bool reload = false;
         string? mode;
-        
+
         public string SelectedPlaylist { get; private set; }
-        public PlaylistSelectionForm(string username)
+        public PlaylistSelectionForm(string username, string server)
         {
             InitializeComponent();
             this.username = username;
+            this.server = server;
             LoadPlaylists();
             btnDeletePlaylist.Enabled = false;
             btnOK.Enabled = false;
             UpdateButtonMode();
         }
-        public PlaylistSelectionForm(string username, string? mode)
+        public PlaylistSelectionForm(string username, string? mode, string server)
         {
             InitializeComponent();
             this.username = username;
+            this.server = server;
             LoadPlaylists();
             this.mode = mode;
             UpdateButtonMode();
@@ -46,12 +48,12 @@ namespace DA_MusicApp
             btnOK.Enabled = false;
         }
 
-        private void LoadPlaylists()
+        public void LoadPlaylists()
         {
             listBoxPlaylists.Items.Clear();
             try
             {
-                using (TcpClient client = new TcpClient("10.0.102.123", 12345))
+                using (TcpClient client = new TcpClient(server, port))
                 {
                     NetworkStream stream = client.GetStream();
                     string message = $"GET_PLAYLISTS:{username}";
@@ -88,7 +90,7 @@ namespace DA_MusicApp
 
         private void btnCreatePlaylist_Click(object sender, EventArgs e)
         {
-            CreatePlaylistForm createPlaylistForm = new CreatePlaylistForm(username);
+            CreatePlaylistForm createPlaylistForm = new CreatePlaylistForm(username, server);
             if (createPlaylistForm.ShowDialog() == DialogResult.OK)
             {
                 LoadPlaylists();
@@ -105,7 +107,6 @@ namespace DA_MusicApp
             {
                 DeletePlaylist(SelectedPlaylist);
             }
-
         }
 
         private void DeletePlaylist(string playlistName)
@@ -148,13 +149,36 @@ namespace DA_MusicApp
             btnOK.Enabled = true;
             btnDeletePlaylist.Enabled = true;
         }
-        private void UpdateButtonMode() {
-            if (this.mode == "AddSong") {
-                btnOK.Text = "Add"; 
+        private void UpdateButtonMode()
+        {
+            if (this.mode == "AddSong")
+            {
+                btnOK.Text = "Add";
             }
-            else {
-                btnOK.Text = "OK"; 
+            else
+            {
+                btnOK.Text = "OK";
             }
+        }
+
+        private void btnShare_Click(object sender, EventArgs e)
+        {
+            if (listBoxPlaylists.SelectedItem != null)
+            {
+                string selectedPlaylist = listBoxPlaylists.SelectedItem.ToString();
+                ShareForm shareForm = new ShareForm(username, selectedPlaylist, server);
+                shareForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select a playlist to share.");
+            }
+        }
+
+        private void btnRequest_Click(object sender, EventArgs e)
+        {
+            ShareRequestsForm shareRequestsForm = new ShareRequestsForm(username, server,this);
+            shareRequestsForm.Show();
         }
     }
 }

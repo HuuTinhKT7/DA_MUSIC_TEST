@@ -45,3 +45,5 @@ D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.UpdateSong
 D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.ArtistSelectionForm.resources
 D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.PlaylistSelectionForm.resources
 D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.CreatePlaylistForm.resources
+D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.ShareForm.resources
+D:\2025\2025-1\LTMCB\DA-MusicApp\obj\Debug\net8.0-windows\DA_MusicApp.ShareRequestsForm.resources

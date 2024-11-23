@@ -15,6 +15,8 @@ class Server
     private static PasswordHasher passwordHasher = new PasswordHasher();
     private static string connectionString = "Server=DESKTOP-F755DK5\\SQLEXPRESS;Database=MusicDB;User Id=myuser;Password=710710710;";
     public static string email;
+    private static List<TcpClient> connectedClients = new List<TcpClient>();
+    private static bool isconnect = false;
     private static bool CheckUsernameExists(string connectionString, string username)
     {
         string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username";
@@ -98,7 +100,12 @@ class Server
                 byte[] songData = Encoding.UTF8.GetBytes(songList);
                 stream.Write(songData, 0, songData.Length);
             }
-
+            else if (message == "GET_USERS")
+            {
+                string users = GetUsers();
+                byte[] userData = Encoding.UTF8.GetBytes(users);
+                stream.Write(userData, 0, userData.Length);
+            }
             else if (message == "ADDSONG")
             {
                 byte[] buffer1 = new byte[10 * 1024 * 1024];
@@ -111,32 +118,41 @@ class Server
                 AddSong(songName, artist, songFile);
                 byte[] response = Encoding.UTF8.GetBytes("SUCCESS");
                 stream.Write(response, 0, response.Length);
+                NotifyClients("UPDATE_SONGLIST");
                 Console.WriteLine("Song added: " + songName);
-
+                
             }
-
+            else if (message == "CONNECT")
+            {
+                lock (connectedClients) {
+                    connectedClients.Add(client);
+                }
+                isconnect = true;
+                Console.WriteLine("Client connected."); 
+            }
             else
             {
                 string[] parts = message.Split(':');
                 string username = parts[0];
                 string password = parts[1];
-                if (parts.Length == 2 && parts[0] == "GET_SONG")
-                {
-                    string songName = parts[1];
-                    byte[] songFile = GetSongFile(songName);
-                    if (songFile != null)
-                    {
-                        stream.Write(songFile, 0, songFile.Length);
-                        Console.WriteLine("Sent song: " + songName);
-                    }
-                    else
-                    {
-                        byte[] response = Encoding.UTF8.GetBytes("SONG_NOT_FOUND");
-                        stream.Write(response, 0, response.Length); Console.WriteLine("Song not found: " + songName);
-                    }
-                }
+
                 if (parts.Length == 2)
                 {
+                    if (parts[0] == "GET_SONG")
+                    {
+                        string songName = parts[1];
+                        byte[] songFile = GetSongFile(songName);
+                        if (songFile != null)
+                        {
+                            stream.Write(songFile, 0, songFile.Length);
+                            Console.WriteLine("Sent song: " + songName);
+                        }
+                        else
+                        {
+                            byte[] response = Encoding.UTF8.GetBytes("SONG_NOT_FOUND");
+                            stream.Write(response, 0, response.Length); Console.WriteLine("Song not found: " + songName);
+                        }
+                    }
                     if (parts[0] == "LOGOUT")
                     {
                         bool success = LogoutUser(parts[1]);
@@ -166,6 +182,29 @@ class Server
                         string playlists = GetUserPlaylists(parts[1]);
                         byte[] playlistData = Encoding.UTF8.GetBytes(playlists);
                         stream.Write(playlistData, 0, playlistData.Length);
+                    }
+                    if (parts[0] == "GET_SHARE_REQUESTS") { 
+                        string shareRequests = GetShareRequests(parts[1]);
+                        if (string.IsNullOrEmpty(shareRequests)) {
+                            shareRequests = "none";
+                        }
+
+                        byte[] shareData = Encoding.UTF8.GetBytes(shareRequests);
+                        stream.Write(shareData, 0, shareData.Length); 
+                    }
+                    if (parts[0] == "ACCEPT_SHARE_REQUEST") { 
+                        int requestId = int.Parse(parts[1]); 
+                        bool success = AcceptShareRequest(requestId);
+                        string response = success ? "SUCCESS" : "FAIL";
+                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseData, 0, responseData.Length); 
+                    }
+                    if (parts[0] == "DELETE_SHARE_REQUEST") {
+                        int requestId = int.Parse(parts[1]);
+                        bool success = DeleteShareRequest(requestId);
+                        string response = success ? "SUCCESS" : "FAIL";
+                        byte[] responseData = Encoding.UTF8.GetBytes(response); 
+                        stream.Write(responseData, 0, responseData.Length); 
                     }
                 }
                 else if (parts.Length == 3)
@@ -199,6 +238,8 @@ class Server
                         string response = success ? "SUCCESS" : "FAILED";
                         byte[] responseData = Encoding.UTF8.GetBytes(response);
                         stream.Write(responseData, 0, responseData.Length);
+                        NotifyClients("UPDATE_SONGLIST");
+                        Console.WriteLine("Deleted " + parts[1]);
                     }
                 }
                 else
@@ -234,6 +275,13 @@ class Server
                     else if (parts[0] == "ADD_SONG_TO_PLAYLIST")
                     {
                         bool success = AddSongToPlaylist(parts[1], parts[2], parts[3]);
+                        string response = success ? "SUCCESS" : "FAIL";
+                        byte[] responseData = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseData, 0, responseData.Length);
+                    }
+                    else if (parts[0] == "SHARE_PLAYLIST")
+                    {
+                        bool success = AddShareRequest(parts[1], parts[2], parts[3]);
                         string response = success ? "SUCCESS" : "FAIL";
                         byte[] responseData = Encoding.UTF8.GetBytes(response);
                         stream.Write(responseData, 0, responseData.Length);
@@ -274,7 +322,8 @@ class Server
                     }
                 }
             }
-            client.Close();
+            if(!isconnect) 
+                client.Close();
         }
         catch (Exception e)
         {
@@ -653,6 +702,144 @@ class Server
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message); return false;
+            }
+        }
+    }
+
+    private static string GetUsers()
+    {
+        string query = "SELECT Username FROM Users";
+        List<string> users = new List<string>();
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string username = reader["Username"].ToString();
+                    if (!string.IsNullOrWhiteSpace(username))
+                    {
+                        users.Add(username);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        return string.Join(",", users);
+    }
+
+    private static bool AddShareRequest(string fromUsername, string playlistName, string toUsername) {
+        string query = @" INSERT INTO ShareRequests (FromUserId, ToUserId, PlaylistId) SELECT f.UserId, t.UserId, p.PlaylistId FROM Users f, Users t, Playlists p WHERE f.Username = @fromUsername AND t.Username = @toUsername AND p.Name = @playlistName AND p.UserId = f.UserId"; 
+        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@fromUsername", fromUsername);
+            command.Parameters.AddWithValue("@toUsername", toUsername);
+            command.Parameters.AddWithValue("@playlistName", playlistName);
+            try {
+                connection.Open(); 
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0; 
+            }
+            catch (SqlException ex) {
+                Console.WriteLine(ex.Message); return false; 
+            }
+        }
+    }
+
+    private static string GetShareRequests(string toUsername) { 
+        string query = @" 
+SELECT sr.RequestId, f.Username AS FromUsername, p.Name AS PlaylistName 
+FROM ShareRequests sr 
+JOIN Users f ON sr.FromUserId = f.UserId 
+JOIN Playlists p ON sr.PlaylistId = p.PlaylistId 
+JOIN Users t ON sr.ToUserId = t.UserId 
+WHERE t.Username = @toUsername"; 
+        List<string> requests = new List<string>();
+        using (SqlConnection connection = new SqlConnection(connectionString)) {
+            SqlCommand command = new SqlCommand(query, connection); 
+            command.Parameters.AddWithValue("@toUsername", toUsername); 
+            try { 
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    int requestId = reader.GetInt32(0);
+                    string fromUsername = reader.GetString(1);
+                    string playlistName = reader.GetString(2); 
+                    requests.Add($"{requestId}:{fromUsername} shared {playlistName}"); 
+                }
+            }
+            catch (SqlException ex) { 
+                Console.WriteLine(ex.Message); 
+            }
+        }
+        return string.Join(",", requests);
+    }
+
+    private static bool AcceptShareRequest(int requestId) { 
+        string query = @" 
+INSERT INTO Playlists (UserId, Name) 
+SELECT sr.ToUserId, p.Name + ' (' + f.Username + ')' 
+FROM ShareRequests sr 
+JOIN Playlists p ON sr.PlaylistId = p.PlaylistId 
+JOIN Users f ON sr.FromUserId = f.UserId 
+WHERE sr.RequestId = @requestId; 
+INSERT INTO PlaylistSongs (PlaylistId, SongName, Artist) 
+SELECT newPlaylist.PlaylistId, ps.SongName, ps.Artist 
+FROM PlaylistSongs ps 
+JOIN Playlists originalPlaylist ON originalPlaylist.PlaylistId = ps.PlaylistId 
+JOIN ShareRequests sr ON sr.PlaylistId = originalPlaylist.PlaylistId 
+JOIN Playlists newPlaylist ON newPlaylist.UserId = sr.ToUserId 
+WHERE sr.RequestId = @requestId"; 
+        using (SqlConnection connection = new SqlConnection(connectionString)) { 
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@requestId", requestId);   
+            try {
+                connection.Open(); int rowsAffected = command.ExecuteNonQuery(); 
+                if (rowsAffected > 0) {
+                    return DeleteShareRequest(requestId); 
+                } 
+                return false; 
+            } 
+            catch (SqlException ex) { 
+                Console.WriteLine(ex.Message); 
+                return false; 
+            }
+        }
+    }
+
+    private static bool DeleteShareRequest(int requestId) { 
+        string query = "DELETE FROM ShareRequests WHERE RequestId = @requestId";
+        using (SqlConnection connection = new SqlConnection(connectionString)) {
+            SqlCommand command = new SqlCommand(query, connection); 
+            command.Parameters.AddWithValue("@requestId", requestId);
+            try {
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0; 
+            }
+            catch (SqlException ex) {
+                Console.WriteLine(ex.Message); 
+                return false; 
+            }
+        }
+    }
+    private static void NotifyClients(string message) { 
+        byte[] data = Encoding.UTF8.GetBytes(message);
+        lock (connectedClients) { 
+            foreach (var client in connectedClients) {
+                try {
+                    NetworkStream stream = client.GetStream();
+                    stream.Write(data, 0, data.Length); 
+                }
+                catch (Exception ex) {
+                    Console.WriteLine("Exception: " + ex.Message); 
+                }
             }
         }
     }
